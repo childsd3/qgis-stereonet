@@ -27,7 +27,85 @@ import resources
 # Import the code for the dialog
 from stereonet_dialog import StereonetDialog
 import os.path
+from qgis.core import *
+from qgis.gui import *
+import qgis.utils
 
+from matplotlib.backends import qt_compat
+from PyQt4 import QtGui, QtCore
+from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+from numpy import arange, sin, pi
+import mplstereonet
+import datetime
+
+class MyMplCanvas(FigureCanvas):
+    def __init__(self, parent=None, width=4, height=4, dpi=250):
+        fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = fig.add_subplot(111, projection='stereonet')
+        # We want the axes cleared every time plot() is called
+        self.axes.hold(False)
+
+        self.compute_initial_figure()
+
+        #
+        FigureCanvas.__init__(self, fig)
+        self.setParent(parent)
+
+        FigureCanvas.setSizePolicy(self,
+                                   QtGui.QSizePolicy.Expanding,
+                                   QtGui.QSizePolicy.Expanding)
+        FigureCanvas.updateGeometry(self)
+
+    def compute_initial_figure(self):
+        pass
+
+class MyStaticMplCanvas(MyMplCanvas):
+
+    """Simple canvas with a sine plot."""
+    def __init__(self, *args, **kwargs):
+        MyMplCanvas.__init__(self, *args, **kwargs)
+        timer = QtCore.QTimer(self)
+        timer.timeout.connect(self.update_figure)
+        timer.start(5000)
+
+    def compute_initial_figure(self):
+        self.axes.grid(kind='polar')
+
+    def update_figure(self):
+        print(datetime.datetime.now())
+        ddrs = list()
+        dips = list()
+        try:
+            layer = qgis.utils.iface.activeLayer()
+            iter = layer.selectedFeatures()
+            for feature in iter:
+                ddrs.append(feature['ddr'])
+                dips.append(feature['dip'])
+            self.axes.pole(ddrs, dips, 'g^', markersize=18)
+            self.axes.grid(kind='polar')
+            self.draw()
+        except:
+            return
+
+class MyDynamicMplCanvas(MyMplCanvas):
+    """A canvas that updates itself every second with a new plot."""
+
+    def __init__(self, *args, **kwargs):
+        MyMplCanvas.__init__(self, *args, **kwargs)
+        timer = QtCore.QTimer(self)
+        timer.timeout.connect(self.update_figure)
+        timer.start(1000)
+
+    def compute_initial_figure(self):
+        self.axes.plot([0, 1, 2, 3], [1, 2, 0, 4], 'r')
+
+    def update_figure(self):
+        # Build a list of 4 random integers between 0 and 10 (both inclusive)
+        l = [random.randint(0, 10) for i in range(4)]
+
+        self.axes.plot([0, 1, 2, 3], l, 'r')
+        self.draw()
 
 class Stereonet:
     """QGIS Plugin Implementation."""
@@ -44,19 +122,6 @@ class Stereonet:
         self.iface = iface
         # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
-        # initialize locale
-        locale = QSettings().value('locale/userLocale')[0:2]
-        locale_path = os.path.join(
-            self.plugin_dir,
-            'i18n',
-            'Stereonet_{}.qm'.format(locale))
-
-        if os.path.exists(locale_path):
-            self.translator = QTranslator()
-            self.translator.load(locale_path)
-
-            if qVersion() > '4.3.3':
-                QCoreApplication.installTranslator(self.translator)
 
         # Create the dialog (after translation) and keep reference
         self.dlg = StereonetDialog()
@@ -178,15 +243,8 @@ class Stereonet:
         # remove the toolbar
         del self.toolbar
 
-
     def run(self):
         """Run method that performs all the real work"""
         # show the dialog
+        MyStaticMplCanvas(self.dlg.stereonetPlot, width=3, height=3, dpi=100)
         self.dlg.show()
-        # Run the dialog event loop
-        result = self.dlg.exec_()
-        # See if OK was pressed
-        if result:
-            # Do something useful here - delete the line containing pass and
-            # substitute with your code.
-            pass

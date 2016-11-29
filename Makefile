@@ -54,6 +54,15 @@ COMPILED_RESOURCE_FILES = resources.py
 
 PEP8EXCLUDE=pydev,resources.py,conf.py,third_party,ui
 
+MPLSTEREONET= \
+	mplstereonet/analysis.py \
+	mplstereonet/contouring.py \
+	mplstereonet/convenience_functions.py \
+	mplstereonet/__init__.py \
+	mplstereonet/stereonet_axes.py \
+	mplstereonet/stereonet_math.py \
+	mplstereonet/stereonet_transforms.py \
+	mplstereonet/utilities.py
 
 #################################################
 # Normally you would not need to edit below here
@@ -104,10 +113,12 @@ deploy: compile
 	# the Python plugin directory is located at:
 	# $HOME/$(QGISDIR)/python/plugins
 	mkdir -p $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	mkdir -p $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/mplstereonet
 	cp -vf $(PY_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf $(UI_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf $(COMPILED_RESOURCE_FILES) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
 	cp -vf $(EXTRAS) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)
+	cp -vf $(MPLSTEREONET) $(HOME)/$(QGISDIR)/python/plugins/$(PLUGINNAME)/mplstereonet
 
 # The dclean target removes compiled python files from plugin directory
 # also deletes any .git entry
