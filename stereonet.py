@@ -40,7 +40,7 @@ import mplstereonet
 import datetime
 
 class MyMplCanvas(FigureCanvas):
-    def __init__(self, parent=None, width=4, height=4, dpi=250):
+    def __init__(self, parent=None, width=5, height=5, dpi=100):
         fig = Figure(figsize=(width, height), dpi=dpi)
         self.axes = fig.add_subplot(111, projection='stereonet')
         # We want the axes cleared every time plot() is called
@@ -67,7 +67,7 @@ class MyStaticMplCanvas(MyMplCanvas):
         MyMplCanvas.__init__(self, *args, **kwargs)
         timer = QtCore.QTimer(self)
         timer.timeout.connect(self.update_figure)
-        timer.start(5000)
+        timer.start(1000)
 
     def compute_initial_figure(self):
         self.axes.grid(kind='polar')
@@ -80,9 +80,9 @@ class MyStaticMplCanvas(MyMplCanvas):
             layer = qgis.utils.iface.activeLayer()
             iter = layer.selectedFeatures()
             for feature in iter:
-                ddrs.append(feature['ddr'])
+                ddrs.append(feature['ddr']-90)
                 dips.append(feature['dip'])
-            self.axes.pole(ddrs, dips, 'g^', markersize=18)
+            self.axes.pole(ddrs, dips, 'r.', markersize=4)
             self.axes.grid(kind='polar')
             self.draw()
         except:
@@ -246,5 +246,5 @@ class Stereonet:
     def run(self):
         """Run method that performs all the real work"""
         # show the dialog
-        MyStaticMplCanvas(self.dlg.stereonetPlot, width=3, height=3, dpi=100)
+        MyStaticMplCanvas(self.dlg.stereonetPlot, width=5, height=5, dpi=100)
         self.dlg.show()
