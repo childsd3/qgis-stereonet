@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/plugins/Stereonet" >
-        <file>icon.png</file>
-    </qresource>
-</RCC>
