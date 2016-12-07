@@ -45,6 +45,7 @@ MPLSTEREONET= \
 
 PLUGIN_UPLOAD = $(c)/plugin_upload.py
 
+#Sorry everyone, this is so I can actually build it on my windows 10 machine
 HOME=/mnt/c/Users/cni
 
 QGISDIR=.qgis2

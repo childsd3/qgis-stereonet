@@ -175,8 +175,11 @@ class StereonetAxes(LambertAxes):
         """Format displayed coordinates during mouseover of axes."""
         p, b = stereonet_math.geographic2plunge_bearing(x, y)
         s, d = stereonet_math.geographic2pole(x, y)
+        ddr = s[0] + 90
+        if ddr >= 360:
+            ddr = ddr - 360
         pb = u'P/B={:0.0f}\u00b0/{:03.0f}\u00b0'.format(p[0], b[0])
-        sd = u'S/D={:03.0f}\u00b0/{:0.0f}\u00b0'.format(s[0], d[0])
+        sd = u'DDR/Dip={:03.0f}\u00b0/{:0.0f}\u00b0'.format(ddr, d[0])
         return u'{}, {}'.format(pb, sd)
 
     def grid(self, b=None, which='major', axis='both', kind='arbitrary',
