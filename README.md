@@ -11,6 +11,8 @@ Lets say you have a drill hole and want to plot the geologic stereonet of a bunc
 4. Once points are selected, click the Stereonet icon. ![Icon](icon.png)
 5. You should get a plot like this! 
 
+![Example](example.png)
+
 ### Required Inputs
  - A CSV file containing data points with an easting, northing, dip direction, and dip column. (The dip direction and dip column NEED to be named "ddr" and "dip", respectively)
 
