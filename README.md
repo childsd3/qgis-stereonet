@@ -17,5 +17,5 @@ Lets say you have a drill hole and want to plot the geologic stereonet of a bunc
  - A CSV file containing data points with an easting, northing, dip direction, and dip column. (The dip direction and dip column NEED to be named "ddr" and "dip", respectively)
 
 ### Known Bugs
-* Clicking on most anything in the matplotlib menu bar crashes QGIS. I'm working on getting that removed so nothing won't crash anymore.
+* Clicking on most anything in the matplotlib menu bar crashes QGIS. I'm working on getting that removed.
 * When resizing the window, the orientation markers do not move with the stereonet. Bug has been reported here: https://github.com/joferkington/mplstereonet/issues/15
