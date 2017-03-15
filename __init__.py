@@ -36,7 +36,6 @@ import os
 def classFactory(iface):
     return Stereonet(iface)
 
-
 class Stereonet:
     def __init__(self, iface):
         self.iface = iface
@@ -46,29 +45,10 @@ class Stereonet:
         self.contourAction = QAction(QIcon(str(dir_path)+"/icon.png"), u'Stereonet', self.iface.mainWindow())
         self.contourAction.triggered.connect(self.contourPlot)
         self.iface.addToolBarIcon(self.contourAction)
-        print(dir_path,'v1')
 
     def unload(self):
         self.iface.removeToolBarIcon(self.contourAction)
         del self.contourAction
-    #stereonetWithoutContour is unused as of now
-    def stereonetWithoutContour(self):
-        plt.rcParams['toolbar'] = 'None'
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='stereonet')
-        strikes = list()
-        dips = list()
-        try:
-            layer = qgis.utils.iface.activeLayer()
-            iter = layer.selectedFeatures()
-            for feature in iter:
-                strikes.append(feature['ddr']-90)
-                dips.append(feature['dip'])
-            ax.pole(strikes, dips, 'k+', markersize=7)
-            ax.grid()
-            plt.show()
-        except:
-            return
     def contourPlot(self):
         fig, ax = mplstereonet.subplots()
         strikes = list()
@@ -82,7 +62,6 @@ class Stereonet:
                 dipExists = layer.fieldNameIndex('dip')
                 for feature in iter:
                     if strikeExists != -1 and dipExists != -1:
-                        print(feature['strike'],feature['dip'])
                         strikes.append(feature['strike'])
                         dips.append(feature['dip'])
                     elif ddrExists != -1 and dipExists != -1:
@@ -93,5 +72,5 @@ class Stereonet:
         cax = ax.density_contourf(strikes, dips, measurement='poles',cmap=cm.coolwarm)
         ax.pole(strikes, dips, 'k+', markersize=7)
         ax.grid(True)
-        fig.colorbar(cax)
+#        fig.colorbar(cax)
         plt.show()
