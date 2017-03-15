@@ -10,11 +10,11 @@
 name=Stereonet
 qgisMinimumVersion=2.14
 description=Displays a geologic stereonet of selected data
-version=0.1
+version=0.2
 author=Daniel Childs
 email=daniel@childsgeo.com
 
-about=Displays a geologic stereonet of selected geologic structure data. Data needs to be in a csv format with the dip direction under the column "DDR" and dip under the column "dip"
+about=Displays a geologic stereonet of selected geologic structure data. Data needs to be loaded into QGIS via "Delimited Text Layer." A stereonet will be plotted if there is a column labeled "Strike" or "DDR" and "Dip" (case doesn't matter). Poles of the structures are plotted on an equal area stereonet with a modified Kamb method contouring.
 
 tracker=https://github.com/daniel-childs/qgis-stereonet/issues
 repository=https://github.com/daniel-childs/qgis-stereonet
@@ -23,7 +23,7 @@ repository=https://github.com/daniel-childs/qgis-stereonet
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-# changelog=
+changelog=Added support for having either strikes or dip directions of the geologic structures
 
 # Tags are comma separated with spaces allowed
 tags=attribute, csv, geology, stereonet, structure
