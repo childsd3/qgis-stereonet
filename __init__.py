@@ -7,7 +7,7 @@
                              -------------------
         begin               : 2016-11-29
         copyright           : (C) 2016 by Daniel Childs
-        email               : daniel@childsgeo.com
+        email               : noreply@childsgeo.com
         git sha             : $Format:%H$
  ***************************************************************************/
 
