@@ -12,7 +12,7 @@ qgisMinimumVersion=2.14
 description=Displays a geologic stereonet of selected data
 version=0.2
 author=Daniel Childs
-email=daniel@childsgeo.com
+email=noreply@childsgeo.com
 
 about=Displays a geologic stereonet of selected geologic structure data. Data needs to be loaded into QGIS via "Delimited Text Layer." A stereonet will be plotted if there is a column labeled "Strike" or "DDR" and "Dip" (case doesn't matter). Poles of the structures are plotted on an equal area stereonet with a modified Kamb method contouring.
 
